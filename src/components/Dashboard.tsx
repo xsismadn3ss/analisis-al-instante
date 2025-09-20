@@ -2,31 +2,26 @@ import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { FileChartGroup } from '@/components/FileChartGroup'
 import { ChartSkeleton } from '@/components/ui/ChartSkeleton'
-import { useCharts } from '@/contexts/ChartContext'
+import { useCharts, type GroupedChart } from '@/contexts/ChartContext'
 import { useFiles } from '@/contexts/FileContext'
-import { groupChartsByFile } from '@/utils/chartData'
-import type { Chart } from '@/api/types/chart'
 
-interface DashboardProps {
-  schemas: Array<{ title: string; chart_type: string; parameter: Array<{ x_axis: string; y_axis: string }> }>
-}
-
-export function Dashboard({ schemas }: DashboardProps) {
-  const { buildCharts, charts, isLoading, error } = useCharts()
+export function Dashboard() {
+  const { buildCharts, charts, isLoading, error, schemas } = useCharts()
   const { files } = useFiles()
-  const [generatedCharts, setGeneratedCharts] = useState<Chart[]>([])
+  const [generatedCharts, setGeneratedCharts] = useState<GroupedChart[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
+  console.log(schemas)
 
   useEffect(() => {
     if (schemas.length > 0 && files.length > 0) {
       generateCharts()
     }
-  }, [schemas])
+  }, [schemas, files])
 
   const generateCharts = async () => {
     setIsGenerating(true)
     try {
-      await buildCharts(schemas, files)
+      await buildCharts()
     } catch (err) {
       console.error('Error generando gráficas:', err)
     } finally {
@@ -39,9 +34,6 @@ export function Dashboard({ schemas }: DashboardProps) {
       setGeneratedCharts(charts)
     }
   }, [charts])
-
-  // Agrupar gráficas por archivo
-  const chartsByFile = groupChartsByFile(generatedCharts, files)
 
   if (error) {
     return (
@@ -61,7 +53,7 @@ export function Dashboard({ schemas }: DashboardProps) {
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-foreground mb-2">Generando Dashboard</h2>
           <p className="text-muted-foreground">
-            Creando {schemas.length} gráficas basadas en tus datos...
+            Creando gráficas basadas en tus datos...
           </p>
         </div>
         
@@ -94,20 +86,20 @@ export function Dashboard({ schemas }: DashboardProps) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" id='dashboard-container'>
       <div className="text-center mb-8">
         <h2 className="text-2xl font-bold text-foreground mb-2">Dashboard de Análisis</h2>
         <p className="text-muted-foreground">
-          {generatedCharts.length} gráfica{generatedCharts.length !== 1 ? 's' : ''} generada{generatedCharts.length !== 1 ? 's' : ''} con tus datos
+          {charts.length} gráfica{charts.length !== 1 ? 's' : ''} generada{charts.length !== 1 ? 's' : ''} con tus datos
         </p>
       </div>
       
       {/* Gráficas agrupadas por archivo */}
-      {Object.entries(chartsByFile).map(([fileName, fileCharts], fileIndex) => (
+      {charts.map((groupedChart, fileIndex) => (
         <FileChartGroup
-          key={fileName}
-          fileName={fileName}
-          charts={fileCharts}
+          key={groupedChart.file.name}
+          fileName={groupedChart.file.name}
+          charts={groupedChart.charts}
           fileIndex={fileIndex}
         />
       ))}

@@ -36,7 +36,7 @@ export function FileChartGroup({ fileName, charts, fileIndex }: FileChartGroupPr
           <FadeIn 
             key={`${chart.title}-${chartIndex}`} 
             delay={fileIndex * 200 + chartIndex * 100}
-            duration={800}
+            duration={1500}
           >
             <Card className="overflow-hidden">
               <ChartRenderer chart={chart} />

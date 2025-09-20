@@ -2,8 +2,9 @@ import { BarChartComponent } from './BarChart'
 import { LineChartComponent } from './LineChart'
 import { AreaChartComponent } from './AreaChart'
 import { PieChartComponent } from './PieChart'
+import type { Chart, ChartParameterProcessed } from '@/api/types/chart'
+import { RadialChartComponent } from './RadialChart'
 import { RadarChartComponent } from './RadarChart'
-import type { Chart } from '@/api/types/chart'
 
 interface ChartRendererProps {
   chart: Chart
@@ -12,7 +13,7 @@ interface ChartRendererProps {
 export function ChartRenderer({ chart }: ChartRendererProps) {
   const { title, chart_type, data } = chart
 
-  const chartData = data[0]?.data || []
+  const chartData: ChartParameterProcessed[] = data || []
 
   const renderChart = () => {
     switch (chart_type) {
@@ -26,6 +27,7 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
           />
         )
       case 'bar_chart':
+      case 'histogram':
         return (
           <BarChartComponent 
             data={chartData} 
@@ -46,7 +48,7 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
       case 'pie_chart':
         return (
           <PieChartComponent 
-            data={chartData} 
+            data={chartData}
             title={title}
           />
         )
@@ -57,6 +59,15 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
             title={title}
           />
         )
+
+      case 'radial_chart':
+        return (
+          <RadialChartComponent
+          data={chartData}
+          title={title}
+          />
+        )
+
       default:
         return (
           <div className="w-full h-80 p-4 flex items-center justify-center">
