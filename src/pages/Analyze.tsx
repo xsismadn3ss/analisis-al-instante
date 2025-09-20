@@ -1,5 +1,5 @@
 import { useFiles } from "@/contexts/FileContext"
-import { useCharts } from "@/contexts/ChartContext"
+import { useCharts } from "@/contexts/ChartSchemaContext"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Download, Loader2 } from "lucide-react"

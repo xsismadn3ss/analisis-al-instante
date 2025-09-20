@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { FileProvider } from "./contexts/FileContext";
-import { ChartSchemasProvider } from "./contexts/ChartContext";
+import { ChartSchemasProvider } from "./contexts/ChartSchemaContext";
 import { NavBar } from "./components/navbar";
 import Home from "./pages/Home";
 import Analyze from "./pages/Analyze";

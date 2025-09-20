@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { FileManager } from "@/components/FileManager"
 import { Accordion } from "@/components/ui/accordion"
-import { useCharts } from "@/contexts/ChartContext"
+import { useCharts } from "@/contexts/ChartSchemaContext"
 
 export default function Home() {
   const { files, addFiles } = useFiles()

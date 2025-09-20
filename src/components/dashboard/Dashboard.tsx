@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
 import { ChartSkeleton } from '@/components/ui/ChartSkeleton'
-import { useCharts } from '@/contexts/ChartContext'
+import { useCharts } from '@/contexts/ChartSchemaContext'
 import SchemaChartGroup from './SchemaChartGroup'
 import { FadeIn } from '../ui/FadeIn'
 import FileCard from './FileCard'

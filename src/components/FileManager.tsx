@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { FileSpreadsheet, Trash2 } from "lucide-react";
 import { formatFileSize } from "@/lib/utils";
 import { useFiles } from "@/contexts/FileContext";
-import { useCharts } from "@/contexts/ChartContext";
+import { useCharts } from "@/contexts/ChartSchemaContext";
 import { FadeIn } from "./ui/FadeIn";
 
 export function FileManager() {
