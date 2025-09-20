@@ -1,4 +1,4 @@
-import InteractiveChartCard from "./ChartSchemaCard";
+import InteractiveChartCard from "./InteractiveChartCard";
 import type { ChartSchema } from "@/api/types/chart";
 
 export default function SchemaChartGroup({schemas, file}: {schemas: ChartSchema[], file: File}){
