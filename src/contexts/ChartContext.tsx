@@ -3,13 +3,25 @@ import { generateSchema, buildChart } from "@/api/service/chart"
 import type { ChartSchema, Chart } from "@/api/types/chart"
 import { toast } from "sonner"
 
-interface ChartContextType {
-  schemas: ChartSchema[]
+export interface GroupedChart{
+  file: File
   charts: Chart[]
+}
+
+
+export interface GroupedShcema{
+  file: File
+  schema: ChartSchema[]
+}
+
+
+interface ChartContextType {
+  schemas: GroupedShcema[]
+  charts: GroupedChart[]
   isLoading: boolean
   error: string | null
   generateSchemas: (files: File[]) => Promise<void>
-  buildCharts: (schemas: ChartSchema[], files: File[]) => Promise<void>
+  buildCharts: () => Promise<void>
   clearData: () => void
 }
 
@@ -20,8 +32,8 @@ interface ChartProviderProps {
 }
 
 export function ChartProvider({ children }: ChartProviderProps) {
-  const [schemas, setSchemas] = useState<ChartSchema[]>([])
-  const [charts, setCharts] = useState<Chart[]>([])
+  const [schemas, setSchemas] = useState<GroupedShcema[]>([])
+  const [charts, setCharts] = useState<GroupedChart[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -34,15 +46,19 @@ export function ChartProvider({ children }: ChartProviderProps) {
         throw new Error('No hay archivos para procesar')
       }
       
-      // Crear FormData con el primer archivo (el servidor espera un solo archivo)
-      const formData = new FormData()
-      formData.append('file', files[0])
-
-      const response = await generateSchema(formData)
-      console.log(response.data)
-      setSchemas(response.data)
-      
-      toast.success(`Se generaron ${response.data.length} esquemas de gráficas`)
+      // iterar por archivo
+      const groupedSchemas: GroupedShcema[] = []
+      for (const file of files) {
+        const formData = new FormData()
+        formData.append('file', file)
+        const response = await generateSchema(formData)
+        groupedSchemas.push({
+          file,
+          schema: response.data
+        })
+      }
+      setSchemas(groupedSchemas)
+      toast.success(`Se generaron esquemas para ${files.length} archivo${files.length !== 1 ? 's' : ''}`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al generar esquemas'
       setError(errorMessage)
@@ -52,47 +68,37 @@ export function ChartProvider({ children }: ChartProviderProps) {
     }
   }
 
-  const buildCharts = async (schemas: ChartSchema[], files: File[]) => {
+  const buildCharts = async () => {
     try {
       setIsLoading(true)
       setError(null)
       setCharts([])
       
-      if (files.length === 0) {
-        throw new Error('No hay archivos para procesar')
+      // verificar si hay archivos y esquemas
+      if (schemas.length === 0 || schemas.some((s)=> s.schema.length === 0)) {
+        throw new Error('No hay archivos o esquemas para procesar')
       }
       
       // Generar gráficas para cada archivo
-      const allCharts: Chart[] = []
+        // Generar gráficas para cada archivo
+      const allCharts: GroupedChart[] = []
       
-      for (const file of files) {
-        const fileCharts = await Promise.all(
-          schemas.map(async (schema) => {
-            // Crear FormData con el archivo actual
-            const formData = new FormData()
-            formData.append('file', file)
-
-            // Convertir parámetros a JSON string
-            const parameters = JSON.stringify(schema.parameter)
-
-            const response = await buildChart(
-              schema.title,
-              parameters,
-              schema.chart_type,
-              formData
-            )
-            console.log(response.data)
-            
-            return response.data
-          })
-        )
-        
-        allCharts.push(...fileCharts)
+      // iterar por archivo y esquema
+      for (const { file, schema } of schemas) {
+        const formData = new FormData()
+        formData.append('file', file)
+        const response = await buildChart(schema, formData)
+        allCharts.push({
+          file,
+          charts: response.data
+        })
       }
-
       setCharts(allCharts)
-      
-      toast.success(`Se generaron ${allCharts.length} gráficas con datos de ${files.length} archivo${files.length !== 1 ? 's' : ''}`)
+      // numero de archivos
+      const numFiles = schemas.length
+      // numero de graficas
+      const numCharts = allCharts.reduce((acc, cur) => acc + cur.charts.length, 0)
+      toast.success(`Se generaron ${numCharts} gráficas con datos de ${numFiles} archivo${numFiles !== 1 ? 's' : ''}`)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al construir gráficas'
       setError(errorMessage)

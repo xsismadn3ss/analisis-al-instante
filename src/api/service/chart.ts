@@ -1,5 +1,5 @@
 import { apiUrl } from "@/config/env";
-import type { Chart, ChartSchema, ChartParameter } from "../types/chart";
+import type { Chart, ChartSchema } from "../types/chart";
 import axios from "axios";
 
 const url = `${apiUrl}/charts`
@@ -14,10 +14,9 @@ export async function generateSchema(formdata: FormData) {
     })
 }
 
-export async function buildChart(title: string, parameter: ChartParameter[], chart_type: string, file: FormData){
-    const p = JSON.stringify(parameter)
-    console.log(p)
-    return await axios.post<Chart>(`${url}/build?title=${title}&chart_type=${chart_type}&parameter=${p}`, file, {
+export async function buildChart(schemas: ChartSchema[], file: FormData){
+    const s = JSON.stringify(schemas)
+    return await axios.post<Chart[]>(`${url}/build?charts_schema=${s}`, file, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }

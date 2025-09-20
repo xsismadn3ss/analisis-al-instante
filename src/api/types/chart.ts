@@ -6,6 +6,7 @@ export interface ChartParameter {
 export interface ChartSchema {
     title: string
     chart_type: string
+    mesure: string
     parameter: ChartParameter[]
 }
 
