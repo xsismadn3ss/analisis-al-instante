@@ -11,13 +11,11 @@ export default function Home(){
     const navigate = useNavigate()
 
   const handleFileSelect = (files: File[]) => {
-    console.log("Archivos seleccionados:", files)
     addFiles(files)
   }
 
   const handleAnalyze = () => {
     if (files.length > 0) {
-      console.log("Navegando a análisis de:", files)
       navigate("/analyze")
     }
   }
