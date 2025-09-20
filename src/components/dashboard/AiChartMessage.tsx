@@ -2,12 +2,12 @@ import { readCharts } from "@/api/service/chart";
 import type { Chart } from "@/api/types/chart";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Dialog, DialogTrigger, DialogContent, DialogDescription, DialogTitle, DialogHeader } from "./ui/dialog";
-import { FadeIn } from "./ui/FadeIn";
-import { ScrollArea } from "./ui/scroll-area";
+import { Dialog, DialogTrigger, DialogContent, DialogDescription, DialogTitle, DialogHeader } from "../ui/dialog";
+import { FadeIn } from "../ui/FadeIn";
+import { ScrollArea } from "../ui/scroll-area";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { ArrowRight } from "lucide-react";
 
 interface AiChartMessageProps {

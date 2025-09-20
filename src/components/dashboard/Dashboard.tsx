@@ -3,7 +3,9 @@ import { Card } from '@/components/ui/card'
 import { ChartSkeleton } from '@/components/ui/ChartSkeleton'
 import { useCharts } from '@/contexts/ChartContext'
 import SchemaChartGroup from './SchemaChartGroup'
-import { FadeIn } from './ui/FadeIn'
+import { FadeIn } from '../ui/FadeIn'
+import FileCard from './FileCard'
+import DashBoardNavMenu from './NavigationMenu'
 
 export function Dashboard() {
   const { error, schemas } = useCharts()
@@ -61,8 +63,10 @@ export function Dashboard() {
               Esquemas generados con tus datos
             </p>
           </div>
+          <DashBoardNavMenu files={schemas.map(s => s.file)} />
           {schemas.map((s, index) => (
             <>
+              <FileCard key={index} file={s.file} />
               <SchemaChartGroup key={index} schemas={s.schema} file={s.file} />
             </>
           ))}

@@ -1,11 +1,11 @@
 import type { Chart, ChartSchema } from "@/api/types/chart";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "./ui/button";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { buildChart } from "@/api/service/chart";
-import { ChartRenderer } from "./charts/ChartRenderer";
-import { FadeIn } from "./ui/FadeIn";
+import { ChartRenderer } from "../charts/ChartRenderer";
+import { FadeIn } from "../ui/FadeIn";
 import { Sparkles } from 'lucide-react'
 import AiChartMessage from "./AiChartMessage";
 
