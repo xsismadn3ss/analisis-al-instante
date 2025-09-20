@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Menu, X } from "lucide-react"
+import { Menu, X } from "lucide-react"
 import { useNavigate, useLocation } from "react-router-dom"
 import {
   DropdownMenu,
