@@ -1,6 +1,8 @@
 import { BarChartComponent } from './BarChart'
 import { LineChartComponent } from './LineChart'
 import { AreaChartComponent } from './AreaChart'
+import { PieChartComponent } from './PieChart'
+import { RadarChartComponent } from './RadarChart'
 import type { Chart } from '@/api/types/chart'
 
 interface ChartRendererProps {
@@ -10,7 +12,6 @@ interface ChartRendererProps {
 export function ChartRenderer({ chart }: ChartRendererProps) {
   const { title, chart_type, data } = chart
 
-  // Obtener los datos del primer parámetro procesado
   const chartData = data[0]?.data || []
 
   const renderChart = () => {
@@ -40,6 +41,20 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
             title={title}
             xAxisLabel={data[0]?.x_axis}
             yAxisLabel={data[0]?.y_axis}
+          />
+        )
+      case 'pie_chart':
+        return (
+          <PieChartComponent 
+            data={chartData} 
+            title={title}
+          />
+        )
+      case 'radar_chart':
+        return (
+          <RadarChartComponent 
+            data={chartData} 
+            title={title}
           />
         )
       default:
