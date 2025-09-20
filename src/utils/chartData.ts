@@ -1,3 +1,4 @@
+import type { Chart } from "@/api/types/chart";
 /**
  * Elimina duplicados del eje X manteniendo el último valor
  * @param data - Array de datos con propiedades x e y
@@ -20,8 +21,8 @@ export function removeDuplicateXValues(data: Array<{ x: string; y: string }>): A
  * @param files - Array de archivos
  * @returns Objeto con gráficas agrupadas por archivo
  */
-export function groupChartsByFile(charts: any[], files: File[]): Record<string, any[]> {
-  const groupedCharts: Record<string, any[]> = {}
+export function groupChartsByFile(charts: Chart[], files: File[]): Record<string, Chart[]> {
+  const groupedCharts: Record<string, Chart[]> = {}
   
   // Inicializar grupos para cada archivo
   files.forEach(file => {
