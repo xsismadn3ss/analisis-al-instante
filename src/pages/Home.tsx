@@ -12,7 +12,7 @@ import { useCharts } from "@/contexts/ChartContext"
 
 export default function Home() {
   const { files, addFiles } = useFiles()
-  const { generateSchemas } = useCharts()
+  const { generateSchemas, schemas } = useCharts()
   const navigate = useNavigate()
 
   const handleFileSelect = (files: File[]) => {
@@ -21,8 +21,12 @@ export default function Home() {
 
   const handleAnalyze = () => {
     if (files.length > 0) {
-      navigate("/analyze")
-      generateSchemas(files)
+      if(schemas.length === 0){
+        navigate("/analyze")
+        generateSchemas(files)
+      }else{
+        navigate("/analyze")
+      }
     }
   }
 
