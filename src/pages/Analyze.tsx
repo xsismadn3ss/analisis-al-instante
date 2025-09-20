@@ -24,7 +24,6 @@ export default function Analyze() {
     if (files.length === 0) return
     
     try {
-      // Generar esquemas usando IA
       await generateSchemas(files)
     } catch (err) {
       console.error("Error en el análisis:", err)
@@ -184,7 +183,7 @@ export default function Analyze() {
 
             {/* Dashboard */}
             {schemas.length > 0 && (
-              <Dashboard schemas={schemas} />
+              <Dashboard/>
             )}
           </div>
          )}
