@@ -27,3 +27,7 @@ export interface Chart{
     chart_type: string
     data: ChartParameterProcessed[]
 }
+
+export interface Message{
+    message: string
+}
