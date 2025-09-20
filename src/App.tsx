@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { FileProvider } from "./contexts/FileContext";
-import { ChartProvider } from "./contexts/ChartContext";
+import { ChartSchemasProvider } from "./contexts/ChartContext";
 import { NavBar } from "./components/navbar";
 import Home from "./pages/Home";
 import Analyze from "./pages/Analyze";
@@ -24,11 +24,11 @@ function App() {
   return (
     <>
       <FileProvider>
-        <ChartProvider>
+        <ChartSchemasProvider>
           <BrowserRouter>
             <AppContent />
           </BrowserRouter>
-        </ChartProvider>
+        </ChartSchemasProvider>
       </FileProvider>
       <Toaster />
     </>
