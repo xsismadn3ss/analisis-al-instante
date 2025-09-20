@@ -1,40 +1,21 @@
 import { useState, useEffect } from 'react'
 import { Card } from '@/components/ui/card'
-import { FileChartGroup } from '@/components/FileChartGroup'
 import { ChartSkeleton } from '@/components/ui/ChartSkeleton'
-import { useCharts, type GroupedChart } from '@/contexts/ChartContext'
-import { useFiles } from '@/contexts/FileContext'
-import { AIMessageDisplay } from "./AIMessageDisplay";
+import { useCharts } from '@/contexts/ChartContext'
+import SchemaChartGroup from './SchemaChartGroup'
+import { FadeIn } from './ui/FadeIn'
 
 export function Dashboard() {
-  const { buildCharts, charts, isLoading, error, schemas } = useCharts()
-  const { files } = useFiles()
-  const [generatedCharts, setGeneratedCharts] = useState<GroupedChart[]>([])
-  const [isGenerating, setIsGenerating] = useState(false)
+  const { error, schemas } = useCharts()
+  const [isLoaded, setIsLoaded] = useState(false)
   console.log(schemas)
 
   useEffect(() => {
-    if (schemas.length > 0 && files.length > 0) {
-      generateCharts()
+    if (schemas.length > 0) {
+      setIsLoaded(true)
+      document.getElementById('dashboard-container')?.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [schemas, files])
-
-  const generateCharts = async () => {
-    setIsGenerating(true)
-    try {
-      await buildCharts()
-    } catch (err) {
-      console.error('Error generando gráficas:', err)
-    } finally {
-      setIsGenerating(false)
-    }
-  }
-
-  useEffect(() => {
-    if (charts.length > 0) {
-      setGeneratedCharts(charts)
-    }
-  }, [charts])
+  }, [schemas])
 
   if (error) {
     return (
@@ -48,7 +29,7 @@ export function Dashboard() {
     )
   }
 
-  if (isGenerating || isLoading) {
+  if (isLoaded === false) {
     return (
       <div className="space-y-6">
         <div className="text-center mb-8">
@@ -70,37 +51,23 @@ export function Dashboard() {
     )
   }
 
-  if (generatedCharts.length === 0) {
+  if (isLoaded) {
     return (
-      <Card className="p-12 text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-          <div className="h-8 w-8 text-muted-foreground">📊</div>
+      <FadeIn>
+        <div className='space-y-8' id='dashboard-container'>
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-foreground mb-2">Dashboard de Análisis</h2>
+            <p className="text-muted-foreground">
+              Esquemas generados con tus datos
+            </p>
+          </div>
+          {schemas.map((s, index) => (
+            <>
+              <SchemaChartGroup key={index} schemas={s.schema} file={s.file} />
+            </>
+          ))}
         </div>
-        <h3 className="mb-2 text-xl font-semibold text-foreground">
-          No hay gráficas generadas
-        </h3>
-        <p className="text-muted-foreground">
-          Las gráficas aparecerán aquí una vez que se generen
-        </p>
-      </Card>
+      </FadeIn>
     )
   }
-
-  return (
-    <div className="space-y-8" id='dashboard-container'>
-      <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Dashboard de Análisis</h2>
-        <p className="text-muted-foreground">
-          {charts.length} gráfica{charts.length !== 1 ? 's' : ''} generada{charts.length !== 1 ? 's' : ''} con tus datos
-        </p>
-      </div>
-
-      {charts.map((c, index) => (
-        <>
-        <FileChartGroup key={c.file.name} fileIndex={index} fileName={c.file.name} charts={c.charts} />
-        <AIMessageDisplay id={index} />
-        </>
-      ))}
-    </div>
-  )
 }
