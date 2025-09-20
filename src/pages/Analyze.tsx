@@ -3,15 +3,15 @@ import { useCharts } from "@/contexts/ChartContext"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Download, Loader2 } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-import { Dashboard } from "@/components/Dashboard"
+import { Dashboard } from "@/components/dashboard/Dashboard"
 import { Accordion } from "@/components/ui/accordion"
 import { FileManager } from "@/components/FileManager";
+import { FileUploadZone } from "@/components/FileUploadZone"
+import { toast } from "sonner"
 
 export default function Analyze() {
-  const { files } = useFiles()
   const { schemas, isLoading, error, generateSchemas } = useCharts()
-  const navigate = useNavigate()
+  const {files, addFiles} = useFiles()
 
   const handleAnalyze = async () => {
     if (files.length === 0) return
@@ -28,6 +28,11 @@ export default function Analyze() {
     console.log("Descargando resultados...")
   }
 
+  const handleFileSelect = (files: File[]) => {
+    addFiles(files)
+    toast.success(`Se añadieron ${files.length} archivos`)
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -36,23 +41,9 @@ export default function Analyze() {
           Analiza tus archivos de datos y obtén insights valiosos
         </p>
       </div>
+      <FileUploadZone onFileSelect={handleFileSelect}/>
 
-      {files.length === 0 ? (
-        <Card className="p-12 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-            <BarChart3 className="h-8 w-8 text-muted-foreground" />
-          </div>
-          <h3 className="mb-2 text-xl font-semibold text-foreground">
-            No hay archivos para analizar
-          </h3>
-          <p className="text-muted-foreground mb-6">
-            Ve a la página principal para cargar archivos CSV o Excel
-          </p>
-          <Button asChild className="cursor-pointer">
-            <a onClick={() => navigate("/")}>Cargar archivos</a>
-          </Button>
-        </Card>
-      ) : (
+      {files.length > 0 && (
         <div className="space-y-6">
           {/* Lista de archivos con accordion */}
           <Accordion
