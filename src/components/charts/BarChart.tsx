@@ -9,12 +9,11 @@ import type { ChartParameterProcessed } from '@/api/types/chart'
 
 interface BarChartProps {
   data: ChartParameterProcessed[]
-  title: string
   xAxisLabel?: string
   yAxisLabel?: string
 }
 
-export function BarChartComponent({ data, title, xAxisLabel, yAxisLabel }: BarChartProps) {
+export function BarChartComponent({ data, xAxisLabel, yAxisLabel }: BarChartProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
@@ -59,7 +58,6 @@ export function BarChartComponent({ data, title, xAxisLabel, yAxisLabel }: BarCh
 
   return (
     <div className="w-full p-4">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
       <ChartContainer config={chartConfig} className="h-full w-full pb-2">
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={paginatedData}>

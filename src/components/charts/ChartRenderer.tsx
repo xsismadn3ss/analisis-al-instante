@@ -11,7 +11,7 @@ interface ChartRendererProps {
 }
 
 export function ChartRenderer({ chart }: ChartRendererProps) {
-  const { title, chart_type, data } = chart
+  const { chart_type, data } = chart
 
   const chartData: ChartParameterProcessed[] = data || []
 
@@ -20,8 +20,7 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
       case 'area_chart':
         return (
           <AreaChartComponent
-            data={chartData} 
-            title={title}
+            data={chartData}
             xAxisLabel={data[0]?.x_axis}
             yAxisLabel={data[0]?.y_axis}
           />
@@ -30,8 +29,7 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
       case 'histogram':
         return (
           <BarChartComponent 
-            data={chartData} 
-            title={title}
+            data={chartData}
             xAxisLabel={data[0]?.x_axis}
             yAxisLabel={data[0]?.y_axis}
           />
@@ -39,8 +37,7 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
       case 'line_chart':
         return (
           <LineChartComponent 
-            data={chartData} 
-            title={title}
+            data={chartData}
             xAxisLabel={data[0]?.x_axis}
             yAxisLabel={data[0]?.y_axis}
           />
@@ -49,14 +46,12 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
         return (
           <PieChartComponent 
             data={chartData}
-            title={title}
           />
         )
       case 'radar_chart':
         return (
           <RadarChartComponent 
-            data={chartData} 
-            title={title}
+            data={chartData}
           />
         )
 
@@ -64,7 +59,6 @@ export function ChartRenderer({ chart }: ChartRendererProps) {
         return (
           <RadialChartComponent
           data={chartData}
-          title={title}
           />
         )
 

@@ -5,16 +5,14 @@ import type { ChartParameterProcessed } from '@/api/types/chart'
 
 interface PieChartProps {
   data: ChartParameterProcessed[]
-  title: string
 }
 
-export function PieChartComponent({ data, title }: PieChartProps) {
+export function PieChartComponent({ data }: PieChartProps) {
 
   const colors = generateColorPalette(data.length) // Generar paleta de colores
 
   return (
     <div className="w-full h-[21rem] p-4">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
       <ChartContainer config={{}} className="h-full w-full pb-5">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>

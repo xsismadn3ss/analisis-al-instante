@@ -9,12 +9,11 @@ import type { ChartParameterProcessed } from '@/api/types/chart'
 
 interface LineChartProps {
   data: ChartParameterProcessed[]
-  title: string
   xAxisLabel?: string
   yAxisLabel?: string
 }
 
-export function LineChartComponent({ data, title, xAxisLabel, yAxisLabel }: LineChartProps) {
+export function LineChartComponent({ data, xAxisLabel, yAxisLabel }: LineChartProps) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 10
 
@@ -59,7 +58,6 @@ export function LineChartComponent({ data, title, xAxisLabel, yAxisLabel }: Line
 
   return (
     <div className="w-full p-4">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
       <ChartContainer config={chartConfig} className="h-full w-full pb-2">
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={paginatedData}>

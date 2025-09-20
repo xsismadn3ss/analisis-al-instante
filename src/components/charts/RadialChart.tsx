@@ -7,12 +7,10 @@ import { removeDuplicateXValues } from '@/utils/chartData'
 
 interface RadialChartProps {
   data: ChartParameterProcessed[]
-  title: string
 }
 
-export function RadialChartComponent({ data, title }: RadialChartProps) {
+export function RadialChartComponent({ data }: RadialChartProps) {
   const colors = generateColorPalette(data.length)
-
   const processedData = removeDuplicateXValues(data.flatMap((items) => items.data || []))
 
   const chartData = processedData.map((d, index) => {
@@ -34,7 +32,6 @@ export function RadialChartComponent({ data, title }: RadialChartProps) {
 
   return (
     <div className="w-full h-[24rem] p-4">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
       <ChartContainer config={chartConfig} className="h-full w-full pb-10">
         <RadialBarChart cx="50%" cy="50%" innerRadius="20%" outerRadius="80%" data={chartData}>
           {chartData.map((entry, index) => (

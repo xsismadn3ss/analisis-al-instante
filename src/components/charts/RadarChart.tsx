@@ -6,10 +6,9 @@ import type { ChartParameterProcessed } from '@/api/types/chart'
 
 interface RadarChartProps {
   data: ChartParameterProcessed[]
-  title: string
 }
 
-export function RadarChartComponent({ data, title }: RadarChartProps) {
+export function RadarChartComponent({ data }: RadarChartProps) {
   const chartData = data.flatMap((item)=>{
     return item.data.map((d)=>{
       return {
@@ -29,7 +28,6 @@ export function RadarChartComponent({ data, title }: RadarChartProps) {
 
   return (
     <div className="w-full p-4">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
       <ChartContainer config={chartConfig} className="h-full w-full">
         <RadarChart data={chartData} margin={{ top: 20, right: 80, bottom: 20, left: 80 }}>
           <PolarGrid stroke="hsl(var(--muted-foreground))" opacity={0.3} />
