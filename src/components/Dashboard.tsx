@@ -4,6 +4,7 @@ import { FileChartGroup } from '@/components/FileChartGroup'
 import { ChartSkeleton } from '@/components/ui/ChartSkeleton'
 import { useCharts, type GroupedChart } from '@/contexts/ChartContext'
 import { useFiles } from '@/contexts/FileContext'
+import { AIMessageDisplay } from "./AIMessageDisplay";
 
 export function Dashboard() {
   const { buildCharts, charts, isLoading, error, schemas } = useCharts()
@@ -56,12 +57,12 @@ export function Dashboard() {
             Creando gráficas basadas en tus datos...
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {schemas.map((_, index) => (
-            <ChartSkeleton 
-              key={index} 
-              title={`Generando gráfica ${index + 1}...`} 
+            <ChartSkeleton
+              key={index}
+              title={`Generando gráfica ${index + 1}...`}
             />
           ))}
         </div>
@@ -93,15 +94,12 @@ export function Dashboard() {
           {charts.length} gráfica{charts.length !== 1 ? 's' : ''} generada{charts.length !== 1 ? 's' : ''} con tus datos
         </p>
       </div>
-      
-      {/* Gráficas agrupadas por archivo */}
-      {charts.map((groupedChart, fileIndex) => (
-        <FileChartGroup
-          key={groupedChart.file.name}
-          fileName={groupedChart.file.name}
-          charts={groupedChart.charts}
-          fileIndex={fileIndex}
-        />
+
+      {charts.map((c, index) => (
+        <>
+        <FileChartGroup key={c.file.name} fileIndex={index} fileName={c.file.name} charts={c.charts} />
+        <AIMessageDisplay id={index} />
+        </>
       ))}
     </div>
   )
