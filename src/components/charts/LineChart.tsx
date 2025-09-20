@@ -51,7 +51,7 @@ export function LineChartComponent({ data, title, xAxisLabel, yAxisLabel }: Line
   return (
     <div className="w-full p-4">
       <h3 className="text-lg font-semibold mb-4 text-foreground">{title}</h3>
-      <ChartContainer config={chartConfig} className="h-full w-full pb-10">
+      <ChartContainer config={chartConfig} className="h-full w-full pb-2">
         <LineChart data={currentItems}>
           <CartesianGrid vertical={false} />
           <XAxis
