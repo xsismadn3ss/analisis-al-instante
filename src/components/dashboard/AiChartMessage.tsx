@@ -32,7 +32,8 @@ export default function AiChartMessage(data: AiChartMessageProps) {
         setIsLoading(false)
       })
     }
-  }, [chart, message])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chart])
 
   return (
     <>
