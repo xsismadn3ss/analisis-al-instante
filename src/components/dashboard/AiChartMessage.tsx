@@ -14,8 +14,8 @@ interface AiChartMessageProps {
   chart: Chart
 }
 
-export default function AiChartMessage(data: AiChartMessageProps) {
-  const { chart } = data
+export default function AiChartMessage(props: AiChartMessageProps) {
+  const { chart } = props
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -25,14 +25,14 @@ export default function AiChartMessage(data: AiChartMessageProps) {
       toast.info('Estamos analizando la gráfica, por favor espera...')
       readCharts([chart]).then((res) => {
         setMessage(res.data.message)
-      }).catch((err) => {
-        toast.error(err.message)
+      }).catch(() => {
+        toast.error("Ocurrió un error al analizar la gráfica. Por favor, intenta nuevamente más tarde.")
         setMessage('')
       }).finally(() => {
         setIsLoading(false)
       })
     }
-  }, [chart, message])
+  }, [chart])
 
   return (
     <>
@@ -60,7 +60,7 @@ export default function AiChartMessage(data: AiChartMessageProps) {
                   <DialogDescription className="animate-pulse">Estamos preparando el análisis de la gráfica, te notificaremos cuando este listo.</DialogDescription>
                 </>
               ) : (
-                <h1 className="text-2xl font-bold text-emerald-500">Analísis con IA</h1>
+                <h1 className="text-2xl font-bold text-emerald-500">Análisis con IA</h1>
               )}
             </DialogTitle>
           </DialogHeader>
