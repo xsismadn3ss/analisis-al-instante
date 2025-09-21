@@ -25,7 +25,6 @@ export default function AiChartMessage(data: AiChartMessageProps) {
       toast.info('Estamos analizando la gráfica, por favor espera...')
       readCharts([chart]).then((res) => {
         setMessage(res.data.message)
-        console.log(message)
       }).catch((err) => {
         toast.error(err.message)
         setMessage('')
@@ -33,7 +32,7 @@ export default function AiChartMessage(data: AiChartMessageProps) {
         setIsLoading(false)
       })
     }
-  }, [chart])
+  }, [chart, message])
 
   return (
     <>

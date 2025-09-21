@@ -45,7 +45,6 @@ export function Dashboard() {
           {schemas.map((_, index) => (
             <ChartSkeleton
               key={index}
-              title={`Generando gráfica ${index + 1}...`}
             />
           ))}
         </div>
