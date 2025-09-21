@@ -1,10 +1,6 @@
 import { Card } from './card'
 
-interface ChartSkeletonProps {
-  title?: string
-}
-
-export function ChartSkeleton({ title = "Cargando gráfica..." }: ChartSkeletonProps) {
+export function ChartSkeleton() {
   return (
     <Card className="p-4">
       <div className="space-y-4">
