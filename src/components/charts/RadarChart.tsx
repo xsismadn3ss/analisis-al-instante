@@ -41,7 +41,7 @@ export function RadarChartComponent({ data }: RadarChartProps) {
           />
           <Radar
             name="Valor"
-            dataKey={data[0].x_axis}
+            dataKey={data[0]?.x_axis || 'x'}
             stroke={chartConfig[data[0].x_axis].color}
             fill={chartConfig[data[0].x_axis].color}
             fillOpacity={0.3}
